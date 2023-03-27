@@ -1,0 +1,1251 @@
+
+openapi: 3.0.0
+info:
+  title: API Conductores
+  version: '1.0.0'
+  description: >-
+    conjunto de apis para la tabla Conductores
+
+tags:
+  - name: Conductores
+  - name: TiposPersonas
+  - name: LicenciasConductor
+  - name: Acceso
+
+
+servers:
+  - url: https://localhost:8081
+    description: >-
+      Direccion local para las apis
+
+  - url: https://localhost:8081/swagger-ui/index.html
+    description: >-
+      Direccion local para el acceso a swagger
+# Controllers
+paths:
+  # Get 
+  /conductores:
+    get:
+      description: Metodo para la obtencion de todos los conductores
+      tags:
+        - "Conductores"
+      parameters:
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConductoresDescripcionesPage'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+  # Get
+  /conductores/{id_conductor}:
+    get:
+      description: Método para obtención de un único conductor
+      tags:
+        - "Conductores"
+      parameters:
+        - $ref: '#/components/parameters/Id_Conductor_path'
+        - $ref: '#/components/parameters/Cod_Centro_Unico'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConductoresDescripciones'
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+  # Get
+  /conductores/{id_conductor}/licencias:
+    get:
+      description: Método para obtener las licencias de un conductor
+      tags:
+        - "Conductores"
+      parameters:
+        - $ref: '#/components/parameters/Id_Conductor_path'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Licencias'
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+    # Get
+    #{id_tipopersona}/{cod_centro}/{cod_territorial}/{cod_empleado}/{st_direccion}/{cod_nacionalidad}/{id_tipoidentificacion}/{cod_identificacion}/{st_telefono}/{st_telefonooperaciones}/{id_estado}/{dt_fechaultimamodificacion}/{cod_ejecutor}/{st_nombre}/{st_apellidos}
+  /conductores/filter/:
+    get:
+      description: Metodo para la obtencion del conductor seleccionado
+      tags:
+        - "Conductores"
+      parameters:
+        - $ref: '#/components/parameters/Id_Conductor'
+        - $ref: '#/components/parameters/List_Id_Tipopersona'
+        - $ref: '#/components/parameters/Cod_Centro'
+        - $ref: '#/components/parameters/Cod_Territorial'
+        - $ref: '#/components/parameters/Cod_Empleado'
+        - $ref: '#/components/parameters/St_Direccion'
+        - $ref: '#/components/parameters/Cod_Nacionalidad'
+        - $ref: '#/components/parameters/Id_Tipoidentificacion'
+        - $ref: '#/components/parameters/Cod_Identificacion'
+        - $ref: '#/components/parameters/St_Telefono'
+        - $ref: '#/components/parameters/St_Telefonooperaciones'
+        - $ref: '#/components/parameters/Id_Estado'
+        - $ref: '#/components/parameters/Dt_Fechaultimamodificacion'
+        - $ref: '#/components/parameters/Cod_Ejecutor'
+        - $ref: '#/components/parameters/St_Nombre'
+        - $ref: '#/components/parameters/St_Licencia'
+        - $ref: '#/components/parameters/St_Apellidos'
+        - $ref: '#/components/parameters/Page'
+
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConductoresDescripcionesPage'
+
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  # Get
+  /conductores/{id_conductor}/vehiculos:
+    get:
+      description: Método para obtener las licencias de un conductor
+      tags:
+        - "Conductores"
+      parameters:
+        - $ref: '#/components/parameters/Id_Conductor_path'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehiculo'
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  # post
+  /conductores/:
+    post :
+      description : Metodo para la insercion de conductores
+      tags :
+        - "Conductores"
+      requestBody:
+        description: Crea un nuevo conductor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConductoresDescripciones'
+        required: true
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/ConductoresDescripciones'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+    put :
+      description : Metodo para la modificación de conductores
+      tags :
+        - "Conductores"
+      requestBody:
+        description: Crea un nuevo conductor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConductoresDescripciones'
+        required: true
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/ConductoresDescripciones'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+  #Get
+  /licenciasconductor:
+    get:
+      description: Metodo para la obtencion de todos las licencias
+      tags:
+        - "LicenciasConductor"
+      parameters:
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Licencias'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+
+
+    # Get
+    #{id_licencia}/{dt_fechaexpedicion}/{dt_fecharenovacion}/{st_observiaciones}/{num_puntos}/{st_limitaciones}/{dt_fechaultimamodificacion}/{cod_ejecutor}/{cod_licencia}
+  /licenciasconductor/filter/:
+    get:
+      description: Metodo para la obtencion del conductor seleccionado
+      tags:
+        - "LicenciasConductor"
+      parameters:
+        - $ref: '#/components/parameters/Id_Conductor'
+        - $ref: '#/components/parameters/Id_Licencia'
+        - $ref: '#/components/parameters/Dt_Fechaexpedicion'
+        - $ref: '#/components/parameters/Dt_Fecharenovacion'
+        - $ref: '#/components/parameters/St_Observiaciones'
+        - $ref: '#/components/parameters/Num_Puntos'
+        - $ref: '#/components/parameters/St_Limitaciones'
+        - $ref: '#/components/parameters/Dt_Fechaultimamodificacion'
+        - $ref: '#/components/parameters/Cod_Ejecutor'
+        - $ref: '#/components/parameters/Cod_Licencia'
+        - $ref: '#/components/parameters/Page'
+
+
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Licencias'
+
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  # post
+  /licenciasconductor/:
+    post :
+      description : Metodo para la insercion de conductores
+      tags :
+        - "LicenciasConductor"
+      requestBody:
+        description: Crea un nueva licencia conductor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Licencias'
+        required: true
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/Licencias'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+    put:
+      description: Método para la inserción de conductores
+      tags:
+        - "LicenciasConductor"
+      requestBody:
+        description: Crea un nueva licencia conductor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Licencias'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Licencias'
+
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+    delete:
+      description: Metodo para eliminar una licencia de un conductor
+      tags:
+        - "LicenciasConductor"
+      requestBody:
+        description: La lincencia que se quiere eliminar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Licencias'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Licencias'
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+
+  # Get Tipos Personas sin parametros
+  /tipospersonas:
+    get :
+      description : Metodo para la obtencion de los tipos de personas
+      tags :
+        - 'TiposPersonas'
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/TiposPersonas'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+  /tipospersonas/filter/:
+    get:
+      description: Metodo para la obtencion de los tipos de personas filtrado por el identificador y descripcion
+      tags:
+        - 'TiposPersonas'
+      parameters:
+        - $ref: '#/components/parameters/Id_Tipopersona'
+        - $ref: '#/components/parameters/Desc_Tipopersona'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TiposPersonas'
+
+        '400':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlError'
+
+        '404':
+          description: KO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  # post
+  /tipospersonas/:
+    post :
+      description : Metodo para la insercion de conductores
+      tags :
+        - "TiposPersonas"
+      requestBody:
+        description: Crea un nuevo TiposPersonas
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TiposPersonas'
+        required: true
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/TiposPersonas'
+
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+
+  # Post
+  /acceso:
+    post:
+      description: "Método para obtención de un único conductor"
+      tags:
+        - "Acceso"
+      requestBody:
+        description: "Crea un nuevo conductor"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioLogin'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConductorAcceso'
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+  /recover :
+    post :
+      description : "Método para obtención de un único conductor"
+      tags :
+        - "Acceso"
+      requestBody :
+        description : "Crea un nuevo conductor"
+        content :
+          application/json :
+            schema :
+              $ref : '#/components/schemas/UsuarioPassword'
+        required : true
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema :
+                type: object
+                properties:
+                  email:
+                    type: string
+                    description: email del usuario
+                    example: "a@a.com"
+                  mensaje:
+                    type: boolean
+                    description: mensaje de respuesta del cambio de contraseña
+                    example: true | false
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+  /sendmail :
+    get :
+      description : "Método para obtención de un único conductor"
+      tags :
+        - "Acceso"
+      parameters:
+        - $ref: '#/components/parameters/Email'
+        - $ref: '#/components/parameters/App'
+      responses :
+        '200' :
+          description : OK
+          content :
+            application/json :
+              schema :
+                type: object
+                properties:
+                  email:
+                    type: string
+                    description: email del usuario
+                    example: "a@a.com"
+                  correcto:
+                    type: boolean
+                    description: mensaje de respuesta de envio de email
+                    example: true | false
+                  mensaje:
+                    type: string
+                    description: mensaje de respuesta de envio de email
+                    example: "error en direccion"
+        '400' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/UrlError'
+
+        '404' :
+          description : KO
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ServerError'
+
+# Components
+components:
+  parameters:
+    Id_Conductor:
+      name: id_conductor
+      example: '1'
+      description: identificador del conductor
+      in: query
+      required: false
+      schema:
+        type: number
+    Email:
+      name: email
+      example: 'a@a.com'
+      description: email al que se envia
+      in: query
+      required: false
+      schema:
+        type: string
+    App :
+      name : app
+      example : 'backoffice | movil'
+      description : distincion de donde proviene la peticion de cambio de contraseña
+      in : query
+      required : false
+      schema :
+        type : string
+    Id_Conductor_path:
+      name: id_conductor
+      example: '1'
+      description: identificador del conductor pasado en el path
+      in: path
+      required: true
+      schema:
+        type: number
+    List_Id_Tipopersona:
+      name: id_tipopersona
+      example: '1'
+      description: identificador del tipo de persona
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          type: number
+    Id_Tipopersona:
+      name: id_tipopersona
+      example: '1'
+      description: identificador del tipo de persona
+      in: query
+      required: false
+      schema:
+        type: number
+    Cod_Centro :
+      name : cod_centro
+      example : '1A'
+      description : codigo del centro
+      in : query
+      required : false
+      schema:
+        type: array
+        items:
+          type: string
+    Cod_Centro_Unico :
+      name : cod_centro
+      example : '1A'
+      description : codigo del centro
+      in : query
+      required : false
+      schema:
+        type: string
+    Cod_Territorial :
+      name : cod_territorial
+      example : '1A'
+      description : codigo del territorio
+      in : query
+      required : false
+      schema:
+        type: array
+        items:
+          type: string
+    Cod_Empleado:
+      name: cod_empleado
+      example: '1A'
+      description: codigo del empleado
+      in: query
+      required: false
+      schema:
+        type: string
+    St_Direccion:
+      name: st_direccion
+      example: '1A'
+      description: direccion
+      in: query
+      required: false
+      schema:
+        type: string
+    Cod_Nacionalidad :
+      name : cod_nacionalidad
+      example : '1A'
+      description : codigo de nacionalidad
+      in : query
+      required : false
+      schema :
+        type : string
+    Id_Tipoidentificacion :
+      name : id_tipoidentificacion
+      example : '1'
+      description : id del tipo de identificacion
+      in : query
+      required : false
+      schema :
+        type : number
+
+    Cod_Identificacion :
+      name : cod_identificacion
+      example : '1A'
+      description : codigo de identificacion
+      in : query
+      required : false
+      schema :
+        type : string
+
+    St_Telefono :
+      name : st_telefono
+      example : '1'
+      description : telefono
+      in : query
+      required : false
+      schema :
+        type : string
+
+    St_Telefonooperaciones :
+      name : st_telefonooperaciones
+      example : '1A'
+      description : telefono para operaciones
+      in : query
+      required : false
+      schema :
+        type : string
+
+    Id_Estado :
+      name : id_estado
+      example : '1'
+      description : id del estado
+      in : query
+      required : false
+      schema :
+        type : number
+
+    Dt_Fechaultimamodificacion :
+      name : dt_fechaultimamodificacion
+      example : '1'
+      description : fecha de la ultima actualizacion
+      in : query
+      required : false
+      schema :
+        type : string
+    Cod_Ejecutor :
+      name : cod_ejecutor
+      example : '1A'
+      description : codigo ejecutor
+      in : query
+      required : false
+      schema :
+        type : string
+    St_Nombre :
+      name : st_nombre
+      example : 'Angel'
+      description : nombre
+      in : query
+      required : false
+      schema :
+        type : string
+    St_Apellidos :
+      name : st_apellidos
+      example : 'Ruiz'
+      description : id del tipo de identificacion
+      in : query
+      required : false
+      schema :
+        type : string
+    Id_Licencia:
+      name: id_licencia
+      example: '1'
+      description: identificador de la licencia
+      in: query
+      required: false
+      schema:
+        type: string
+    Dt_Fechaexpedicion :
+      name : dt_fechaexpedicion
+      example : 'YYYY-MM-DD'
+      description : fecha de expedicion
+      in : query
+      required : false
+      schema :
+        type : string
+    Dt_Fecharenovacion :
+      name : dt_fecharenovacion
+      example : 'YYYY-MM-DD'
+      description : fecha de renovacion
+      in : query
+      required : false
+      schema :
+        type : string
+    St_Observiaciones:
+      name: st_observiaciones
+      example: 'AAA'
+      description: observaciones
+      in: query
+      required: false
+      schema:
+        type: string
+    Num_Puntos :
+      name : num_puntos
+      example : '10'
+      description : numero de puntos en la licencia
+      in : query
+      required : false
+      schema :
+        type : number
+    St_Limitaciones :
+      name : st_limitaciones
+      example : 'AAA'
+      description : limitaciones
+      in : query
+      required : false
+      schema :
+        type : string
+    Cod_Licencia :
+      name : cod_licencia
+      example : '3355FGF'
+      description : nombre
+      in : query
+      required : false
+      schema :
+        type : string
+    St_Licencia:
+      name: st_licencia
+      example: '3355FGF'
+      description: número de liencia
+      in: query
+      required: false
+      schema:
+        type: string
+    Desc_Tipopersona:
+      name: desc_tipopersona
+      example: '1A'
+      description: descripcion del tipo de persona
+      in: query
+      required: false
+      schema:
+        type: string
+    Token_Recover:
+      name:  Token_Recover
+      example: 'token'
+      description: token con parametros para cambio de contraseña
+      in: query
+      required: false
+      schema:
+        type: string
+    Page:
+      name:  page
+      example: '1'
+      description: pagina que nos pasan
+      in: query
+      required: false
+      schema:
+        type: number
+
+    # DTOs
+  schemas:
+    Paginas:
+      type: object
+      properties:
+        pagina_inicial:
+          type: number
+          description: pagina inicial que le paso
+          example: 1
+        pagina_final:
+          type: number
+          description: pagina final que le paso
+          example: 25
+        total_size:
+          type: number
+          description: tamaño total que le paso
+          example: 25
+
+
+    Conductor:
+      type: object
+      properties:
+        id_conductor:
+          type: number
+          description: identificador del tipo de actividad
+        id_tipopersona:
+          type: number
+          description: Texto para describir el tipo de actividad
+        cod_centro:
+          type: array
+          description: codigos del centro
+          items:
+            type: string
+            example: '1A'
+        cod_territorial:
+          type: string
+          description: codigo del territorio
+        cod_empleado:
+          type: string
+          description: codigo del empleado
+        st_direccion:
+          type: string
+          description: direccion
+        cod_nacionalidad:
+          type: string
+          description: codigo de nacionalidad
+        id_tipoidentificacion:
+          type: number
+          description: id del tipo de identificacion
+        cod_identificacion:
+          type: string
+          description: codigo de identificacion
+        st_telefono:
+          type: string
+          description: telefono
+        st_telefonooperaciones:
+          type: string
+          description: telefono de operaciones
+        id_estado:
+          type: number
+          description: identificador del estado
+        dt_fechaultimamodificacion:
+          type: string
+          description: fecha de la ultima actualizacion
+        cod_ejecutor:
+          type: string
+          description: codigo ejecutor
+        st_nombre:
+          type: string
+          description: nombre
+        st_apellidos:
+          type: string
+          description: apellidos
+
+    ConductorAcceso:
+      type: object
+      properties:
+        conductor:
+          $ref: '#/components/schemas/Conductor'
+        token:
+          type: string
+          description: "token de acceso"
+          example: "jljljl.2jljljljjl.2jljljljjojo"
+
+    ConductoresDescripcionesPage:
+      anyOf:
+        -  $ref: '#/components/schemas/Paginas'
+        -  $ref: '#/components/schemas/ConductoresDescripciones'
+
+    ConductoresDescripciones:
+      type: object
+      properties:
+        id_conductor:
+          type: number
+          description: identificador del tipo de actividad
+          example: '1'
+        tipo_persona:
+          $ref : '#/components/schemas/TiposPersonas'
+        centro:
+          $ref : '#/components/schemas/Centro'
+        territorial:
+          $ref: '#/components/schemas/Territoral'
+        cod_empleado:
+          type: string
+          description: codigo del empleado
+          example: 'cod-empleado'
+        st_direccion:
+          type: string
+          description: direccion
+          example: 'La castellana 1'
+        cod_nacionalidad:
+          type: string
+          description: codigo de nacionalidad
+          example: 'Española'
+        id_tipoidentificacion:
+          type: number
+          description: id del tipo de identificacion
+          example: '1'
+        cod_identificacion:
+          type: string
+          description: codigo de identificacion
+          example: '75898966F'
+        st_telefono:
+          type: string
+          description: telefono
+          example: '+3465886598'
+        st_telefonooperaciones:
+          type: string
+          description: telefono de operaciones
+          example: '+3465886598'
+        estado:
+          $ref: '#/components/schemas/Estado'
+        dt_fechaultimamodificacion:
+          type: string
+          description: fecha de la ultima actualizacion
+          example: '20-12-2021'
+        cod_ejecutor:
+          type: string
+          description: codigo ejecutor
+          example: 'cod_ejecutor'
+        st_nombre:
+          type: string
+          description: nombre
+          example: 'Pepe'
+        st_apellidos:
+          type: string
+          description: apellidos
+          example: 'Fernandez'
+        correo_electronico:
+          type: string
+          description: Correo electrónico del conductor
+          example: 'prueba@soprasteria.com'
+
+    Centro:
+      type: object
+      properties:
+        cod_centro:
+          type: string
+          description: Código del centro
+          example: 1A
+        base_trabajo:
+          type: string
+          description: Centro de trabajo
+          example: 'Centro Madrid Norte'
+        comunidad_autonoma:
+          type: string
+          description: comunidad autonoma del centro de trabajo
+          example: 'Madrid'
+        provincia:
+          type: string
+          description: provincia
+          example: 'Madrid'
+        localidad:
+          type: string
+          description: Localidad
+          example: 'Madrid'
+
+    Territoral:
+      type: object
+      properties:
+        cod_territorial:
+          type: string
+          description: Código del territorio
+          example: 'Cod-Centro'
+        desc_territorial:
+          type: string
+          description: Descripción de la zona territorial
+          example: 'Madrid Norte'
+
+    Estado:
+      type: object
+      properties:
+        id_estado:
+          type: number
+          description: Identificador del estado
+          example: '1'
+        desc_estado:
+          type: string
+          description: Descripción del estado
+          example: 'Activo'
+
+    Vehiculo:
+      type: object
+      properties:
+        id_vehiculo:
+          type: string
+          description: Identificador del vehículo
+        s_matricula:
+          type: string
+          description: Matrícula
+
+    Licencias:
+      type: object
+      properties:
+        id_conductor:
+          type: number
+          description: identificador del tipo de conductor
+        id_licencia:
+          type: string
+          description: identificador de la licencia
+        dt_fechaexpedicion:
+          type: string
+          description: fecha de exoedicion
+        dt_fecharenovacion:
+          type: string
+          description: fecha de renovacion
+        st_observiaciones:
+          type: string
+          description: observaciones
+        num_puntos:
+          type: number
+          description: numero de puntos
+        st_limitaciones:
+          type: string
+          description: limitaciones
+        dt_fechaultimamodificacion:
+          type: string
+          description: fecha de la ultima modificacion
+        cod_ejecutor:
+          type: string
+          description: codigo ejecutor
+        cod_licencia:
+          type: string
+          description: codigo de la licencia
+        estado:
+          $ref: '#/components/schemas/Estado'
+
+    TiposPersonas:
+      type: object
+      properties:
+        id_tipopersona:
+          type: number
+          description: identificador del tipo de persona
+        desc_tipopersona:
+          type: string
+          description: texto descriptivo del tipo de persona
+
+    UsuarioLogin:
+      type: object
+      properties:
+        usuario:
+          type: string
+          description: "Cod_Empleado o correo electrónico del usuario"
+          example: "cod-user"
+        contrasena:
+          type: string
+          description: "Constraseña del usuario"
+          example: "kkk"
+
+    UsuarioPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          description: "correo electrónico del usuario"
+          example: "a@a.com"
+        contrasena:
+          type: string
+          description: "Constraseña del usuario"
+          example: "kkk"
+
+    ServerError:
+      type: object
+      properties:
+        code_error:
+          type: string
+          description: Codigo de error
+        error_description:
+          type: string
+          description: Esto es un error que aparece cuando la pagina no esta disponible
+      example:
+        code_error: "404 "
+        error_description: "La página que buscas no puede ser encontrada"
+
+    UrlError:
+      type: object
+      properties:
+        code_error:
+          type: string
+          description: Codigo de error
+        error_description:
+          type: string
+          description: La url especificada no existe o no esta bien generada
+      example:
+        code_error: "400 "
+        error_descript: " sintaxis incorrecta o que no puede ser procesada por el servidor"

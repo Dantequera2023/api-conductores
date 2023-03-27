@@ -1,0 +1,10 @@
+/.idea/
+/target/
+/src/main/java/com/sopra/flotas/flotasbackend/contract/generated/api/**
+/src/main/java/com/sopra/flotas/flotasbackend/contract/generated/models/
+/.openapi-generator/
+/logs/
+/APIConductor/
+.openapi-generator-ignore
+flotas-backend.iml
+!/src/main/java/com/sopra/flotas/flotasbackend/contract/generated/api/ApiUtil.java
